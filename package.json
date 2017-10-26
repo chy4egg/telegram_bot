@@ -9,8 +9,9 @@
   "author": "Aleksandr Mikhailov",
   "license": "ISC",
   "dependencies": {
-    "http": "0.0.0",
+    "needle": "^2.0.1",
     "request": "^2.83.0",
+    "tress": "^1.0.5",
     "webpack": "^3.8.1"
   },
   "devDependencies": {
