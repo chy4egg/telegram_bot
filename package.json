@@ -9,10 +9,9 @@
   "author": "Aleksandr Mikhailov",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "needle": "^2.0.1",
-    "request": "^2.83.0",
-    "tress": "^1.0.5",
-    "webpack": "^3.8.1"
+    "tress": "^1.0.5"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
