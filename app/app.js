@@ -1,5 +1,9 @@
+var counter = 0;
+
 var myFunc = setInterval(function () {
 
+    console.log( 'tick ' + counter );
+    counter++;
 
     var tress = require('tress');
     var request = require('request');
@@ -22,7 +26,7 @@ var myFunc = setInterval(function () {
             $('.t-card').each(function(i,item){
 
                 if($(item).hasClass('t-card_event__passed')) {
-                    console.log( 'tick' );
+                    //
                 } else {
                     //если у заголовка нет статуса 'passed';
                     let href = $(item).children().children().next().children().children().attr('href');
@@ -46,6 +50,7 @@ var myFunc = setInterval(function () {
                 $('.b-actionbox__heading').each(function(i,item){
                     if ($(item).text() === 'Регистрация на событие закрыта') {
                         alarmStatus = 'Регистрация закрыта';
+                        console.log( 'tick' ); //tmp
                     } else {
                         alarmStatus = 'Регистрация открыта! Успей зарегаться по ссылке' + ' ' + newAction;
                         sendStatus(alarmStatus); // послать сообщение
@@ -74,6 +79,6 @@ var myFunc = setInterval(function () {
 // Call API
 // slimbot.startPolling();
 
-
-},1800000); //каждые 30 мин
+},60000); //каждую минуту
+// },1800000); //каждые 30 мин
 
