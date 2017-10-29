@@ -1,92 +1,79 @@
-var tress = require('tress');
-var request = require('request');
-var needle = require('needle');
-var cheerio = require('cheerio');
-var resolve = require('url').resolve;
-var fs = require('fs');
-var URL = 'https://pitercss.timepad.ru/events/';
-var results = [];
-var newAction = '';
-var alarm = false;
-var alarmStatus = '';
+var myFunc = setInterval(function () {
 
-var q = tress(function(url, callback){
-    needle.get(url, function(err, res){
-        if (err) throw err;
 
-        // парсим DOM
-        var $ = cheerio.load(res.body);
+    var tress = require('tress');
+    var request = require('request');
+    var needle = require('needle');
+    var cheerio = require('cheerio');
+    var resolve = require('url').resolve;
+    var fs = require('fs');
+    var URL = 'https://pitercss.timepad.ru/events/';
+    var results = [];
+    var newAction = '';
+    var alarmStatus = '';
 
-        //информация о новости
-        $('.t-card').each(function(i,item){
-            //todo на продакшн поменять условия. Если не находит данный класс. (сейчас - если находит)
-            if($(item).hasClass('t-card_event__passed')) {
-                let href = $(item).children().children().next().children().children().attr('href');
-                newAction = href;
-            } else {
-                console.log( 'false' );
-            }
-        });
-
-        callback();
-    });
-}, 10); // запускаем 10 параллельных потоков
-
-q.drain = function(){
-
+//находим новость
     var q = tress(function(url, callback){
         needle.get(url, function(err, res){
             if (err) throw err;
+            // парсим DOM
             var $ = cheerio.load(res.body);
-            //информация о статусе регистрации
-            $('.b-actionbox__heading').each(function(i,item){
-                if ($(item).text() === 'Регистрация на событие закрыта') {
-                    alarmStatus = 'Регистрация закрыта';
-                    alarm = false;
+            //информация о новости
+            $('.t-card').each(function(i,item){
+
+                if($(item).hasClass('t-card_event__passed')) {
+                    console.log( 'tick' );
                 } else {
-                    alarmStatus = 'Регистрация открыта! Успей зарегаться по ссылке' + ' ' + newAction;
-                    alarm = true;
+                    //если у заголовка нет статуса 'passed';
+                    let href = $(item).children().children().next().children().children().attr('href');
+                    newAction = href;
                 }
             });
-
             callback();
         });
     }, 10); // запускаем 10 параллельных потоков
 
-    q.push(newAction);
 
-};
+//ищем внутри новости
+    q.drain = function(){
+        var q = tress(function(url, callback){
+            needle.get(url, function(err, res){
+                if (err) {
+                    return;
+                }
+                var $ = cheerio.load(res.body);
+                //информация о статусе регистрации
+                $('.b-actionbox__heading').each(function(i,item){
+                    if ($(item).text() === 'Регистрация на событие закрыта') {
+                        alarmStatus = 'Регистрация закрыта';
+                    } else {
+                        alarmStatus = 'Регистрация открыта! Успей зарегаться по ссылке' + ' ' + newAction;
+                        sendStatus(alarmStatus); // послать сообщение
+                        clearInterval(myFunc); // сбросить слежение
+                    }
+                });
+                callback();
+            });
+        }, 10); // запускаем 10 параллельных потоков
+        q.push(newAction);
+    };
+    q.push(URL);
 
-q.push(URL);
 
+//telegram bot API:
+    const TELEGRAM_BOT_TOKEN = '418099931:AAF7wgbCO_e29pqv4JM4UMiHoIwDfm3teBw';
+    const Slimbot = require('slimbot');
+    const slimbot = new Slimbot(TELEGRAM_BOT_TOKEN);
 
-//telegram bot
-// const TOKEN = '418099931:AAF7wgbCO_e29pqv4JM4UMiHoIwDfm3teBw';
-//
-// const Telegraf = require('telegraf');
-// const app = new Telegraf(TOKEN);
-//
-// app.command('start', function({ from, reply }) {
-//     console.log('start', from)
-//     return reply('Привет. Я - бот. Меня написал Александр Михайлов. По всем вопросам - chy4egg@gmail.com')
-// });
-//
-// app.use(function(ctx){
-//    ctx.reply( alarmStatus );
-// });
+//метод, посылающий сообщение в мой chat_id (67363885);
+    var sendStatus = function (message) {
+        slimbot.sendMessage('67363885', message ).then(message => {
 
-// app.startPolling();
-
-
-const TELEGRAM_BOT_TOKEN = '418099931:AAF7wgbCO_e29pqv4JM4UMiHoIwDfm3teBw';
-
-const Slimbot = require('slimbot');
-const slimbot = new Slimbot(TELEGRAM_BOT_TOKEN);
-
-slimbot.sendMessage('67363885', 'ахахах работает))').then(message => {
-    console.log(message);
-    console.log(message.result);
-});
-
+        });
+    };
 // Call API
-slimbot.startPolling();
+// slimbot.startPolling();
+
+
+},1800000); //каждые 30 мин
+
