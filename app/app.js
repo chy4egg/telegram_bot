@@ -1,14 +1,14 @@
 var tress = require('tress');
+var request = require('request');
 var needle = require('needle');
 var cheerio = require('cheerio');
 var resolve = require('url').resolve;
 var fs = require('fs');
-
-// var URL = 'http://www.ferra.ru/ru/techlife/news/';
 var URL = 'https://pitercss.timepad.ru/events/';
 var results = [];
 var newAction = '';
 var alarm = false;
+var alarmStatus = '';
 
 var q = tress(function(url, callback){
     needle.get(url, function(err, res){
@@ -16,16 +16,6 @@ var q = tress(function(url, callback){
 
         // парсим DOM
         var $ = cheerio.load(res.body);
-
-        // //информация о новости
-        // if($('.b_infopost').contents().eq(2).text().trim().slice(0, -1) === 'Алексей Козлов'){
-        //     results.push({
-        //         title: $('h1').text(),
-        //         date: $('.b_infopost>.date').text(),
-        //         href: url,
-        //         size: $('.newsbody').text().length
-        //     });
-        // }
 
         //информация о новости
         $('.t-card').each(function(i,item){
@@ -38,17 +28,6 @@ var q = tress(function(url, callback){
             }
         });
 
-        //список новостей
-        // $('.b_rewiev p>a').each(function() {
-        //     q.push($(this).attr('href'));
-        // });
-
-        //паджинатор
-        // $('.bpr_next>a').each(function() {
-        //     // не забываем привести относительный адрес ссылки к абсолютному
-        //     q.push(resolve(URL, $(this).attr('href')));
-        // });
-
         callback();
     });
 }, 10); // запускаем 10 параллельных потоков
@@ -58,16 +37,14 @@ q.drain = function(){
     var q = tress(function(url, callback){
         needle.get(url, function(err, res){
             if (err) throw err;
-
             var $ = cheerio.load(res.body);
-
             //информация о статусе регистрации
             $('.b-actionbox__heading').each(function(i,item){
                 if ($(item).text() === 'Регистрация на событие закрыта') {
-                    console.log('регистрация закрыта');
+                    alarmStatus = 'Регистрация закрыта';
                     alarm = false;
                 } else {
-                    console.log( 'Круто, регистрация открыта' );
+                    alarmStatus = 'Регистрация открыта! Успей зарегаться по ссылке' + ' ' + newAction;
                     alarm = true;
                 }
             });
@@ -81,3 +58,35 @@ q.drain = function(){
 };
 
 q.push(URL);
+
+
+//telegram bot
+// const TOKEN = '418099931:AAF7wgbCO_e29pqv4JM4UMiHoIwDfm3teBw';
+//
+// const Telegraf = require('telegraf');
+// const app = new Telegraf(TOKEN);
+//
+// app.command('start', function({ from, reply }) {
+//     console.log('start', from)
+//     return reply('Привет. Я - бот. Меня написал Александр Михайлов. По всем вопросам - chy4egg@gmail.com')
+// });
+//
+// app.use(function(ctx){
+//    ctx.reply( alarmStatus );
+// });
+
+// app.startPolling();
+
+
+const TELEGRAM_BOT_TOKEN = '418099931:AAF7wgbCO_e29pqv4JM4UMiHoIwDfm3teBw';
+
+const Slimbot = require('slimbot');
+const slimbot = new Slimbot(TELEGRAM_BOT_TOKEN);
+
+slimbot.sendMessage('67363885', 'ахахах работает))').then(message => {
+    console.log(message);
+    console.log(message.result);
+});
+
+// Call API
+slimbot.startPolling();
