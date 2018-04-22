@@ -92,28 +92,24 @@ const CONFIG = new _modules_configStatus_js__WEBPACK_IMPORTED_MODULE_0__["defaul
 const TELEGRAM = new _modules_telegramApi_js__WEBPACK_IMPORTED_MODULE_1__["default"]('418099931:AAF7wgbCO_e29pqv4JM4UMiHoIwDfm3teBw');
 const PARSER = new _modules_parseModule_js__WEBPACK_IMPORTED_MODULE_2__["default"]('https://pitercss.timepad.ru/events/');
 
-function main () {
-    if (PARSER.parse().alarmStatus === true) {
-        TELEGRAM.sendStatus(PARSER.parse().alarmMessage);
-        CONFIG.writeConfig(false);
-    } else {
-        console.log(PARSER.parse().alarmMessage);
-        console.log(PARSER.parse());
-        // TELEGRAM.sendStatus(PARSER.parse().alarmMessage);
-    }
-}
-
 (function init () {
+
     PARSER.parse().then(
         result => {
-          // первая функция-обработчик - запустится при вызове resolve
-          console.log("Fulfilled: " + result); // result - аргумент resolve
+          if (CONFIG.getConfig && result.alarmStatus === true) {
+            console.log(result.alarmMessage);
+            TELEGRAM.sendStatus(result.alarmMessage);
+            CONFIG.writeConfig(false); 
+          } else {
+            console.log('Что-то пошло не так...Возможно, скрипт уже выполнился. Попробуйте перезагрузить конфиг.');
+          }
         },
         error => {
-          // вторая функция - запустится при вызове reject
-          console.log("Rejected: " + error); // error - аргумент reject
+            console.log(error.alarmMessage);
+            // TELEGRAM.sendStatus(error.alarmMessage);
         }
       );
+
 }());
 
 /***/ }),
@@ -152,9 +148,9 @@ __webpack_require__.r(__webpack_exports__);
 
     writeConfig(status) {
         if (status === true) {
-            fs__WEBPACK_IMPORTED_MODULE_0___default.a.writeFile("config.js", "1"); // "1" - разрешить.
+            fs__WEBPACK_IMPORTED_MODULE_0___default.a.writeFile("config.js", "1", ()=>{ console.log('конфиг перезаписан на "разрешить"') }); // "1" - разрешить.
         } else if (status === false) {
-            fs__WEBPACK_IMPORTED_MODULE_0___default.a.writeFile("config.js", "0"); // "0" - запретить.
+            fs__WEBPACK_IMPORTED_MODULE_0___default.a.writeFile("config.js", "0", ()=>{ console.log('конфиг перезаписан на "запретить"') }); // "0" - запретить.
         }
     }
 });
@@ -42548,9 +42544,11 @@ let alarmStatus = "";
                             if ($(item).text() == "Регистрация на событие закрыта") {
                                 data.alarmStatus = false;
                                 data.alarmMessage = "Есть активное событие, но регистрация в данный момент закрыта";
+                                reject(data);
                             } else {
                                 data.alarmStatus = true;
                                 data.alarmMessage = "Регистрация открыта!";
+                                resolve(data);                                
                             }
                         });
                         callback();
@@ -42559,8 +42557,6 @@ let alarmStatus = "";
                 q.push(newAction);
             };
             q.push(this.url);
-            
-            resolve(data);
         });
     };
 });

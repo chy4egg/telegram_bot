@@ -57,9 +57,11 @@ export default class {
                             if ($(item).text() == "Регистрация на событие закрыта") {
                                 data.alarmStatus = false;
                                 data.alarmMessage = "Есть активное событие, но регистрация в данный момент закрыта";
+                                reject(data);
                             } else {
                                 data.alarmStatus = true;
                                 data.alarmMessage = "Регистрация открыта!";
+                                resolve(data);                                
                             }
                         });
                         callback();
@@ -68,8 +70,6 @@ export default class {
                 q.push(newAction);
             };
             q.push(this.url);
-            
-            resolve(data);
         });
     };
 }

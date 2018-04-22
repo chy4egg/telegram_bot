@@ -6,26 +6,22 @@ const CONFIG = new configStatus('config.js');
 const TELEGRAM = new telegramApi('418099931:AAF7wgbCO_e29pqv4JM4UMiHoIwDfm3teBw');
 const PARSER = new parseModule('https://pitercss.timepad.ru/events/');
 
-function main () {
-    if (PARSER.parse().alarmStatus === true) {
-        TELEGRAM.sendStatus(PARSER.parse().alarmMessage);
-        CONFIG.writeConfig(false);
-    } else {
-        console.log(PARSER.parse().alarmMessage);
-        console.log(PARSER.parse());
-        // TELEGRAM.sendStatus(PARSER.parse().alarmMessage);
-    }
-}
-
 (function init () {
+
     PARSER.parse().then(
         result => {
-          // первая функция-обработчик - запустится при вызове resolve
-          console.log("Fulfilled: " + result); // result - аргумент resolve
+          if (CONFIG.getConfig && result.alarmStatus === true) {
+            console.log(result.alarmMessage);
+            TELEGRAM.sendStatus(result.alarmMessage);
+            CONFIG.writeConfig(false); 
+          } else {
+            console.log('Что-то пошло не так...Возможно, скрипт уже выполнился. Попробуйте перезагрузить конфиг.');
+          }
         },
         error => {
-          // вторая функция - запустится при вызове reject
-          console.log("Rejected: " + error); // error - аргумент reject
+            console.log(error.alarmMessage);
+            // TELEGRAM.sendStatus(error.alarmMessage);
         }
       );
+
 }());
