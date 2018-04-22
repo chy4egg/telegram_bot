@@ -92,20 +92,29 @@ const CONFIG = new _modules_configStatus_js__WEBPACK_IMPORTED_MODULE_0__["defaul
 const TELEGRAM = new _modules_telegramApi_js__WEBPACK_IMPORTED_MODULE_1__["default"]('418099931:AAF7wgbCO_e29pqv4JM4UMiHoIwDfm3teBw');
 const PARSER = new _modules_parseModule_js__WEBPACK_IMPORTED_MODULE_2__["default"]('https://pitercss.timepad.ru/events/');
 
-
-console.log(CONFIG.configStatus);
-CONFIG.writeConfig(false);
-CONFIG.getConfig();
-console.log(CONFIG.configStatus);
-
 function main () {
     if (PARSER.parse().alarmStatus === true) {
         TELEGRAM.sendStatus(PARSER.parse().alarmMessage);
         CONFIG.writeConfig(false);
     } else {
         console.log(PARSER.parse().alarmMessage);
+        console.log(PARSER.parse());
+        // TELEGRAM.sendStatus(PARSER.parse().alarmMessage);
     }
 }
+
+(function init () {
+    PARSER.parse().then(
+        result => {
+          // первая функция-обработчик - запустится при вызове resolve
+          console.log("Fulfilled: " + result); // result - аргумент resolve
+        },
+        error => {
+          // вторая функция - запустится при вызове reject
+          console.log("Rejected: " + error); // error - аргумент reject
+        }
+      );
+}());
 
 /***/ }),
 /* 1 */
@@ -121,20 +130,25 @@ __webpack_require__.r(__webpack_exports__);
 
     constructor(configPath){
         this.configPath = configPath;
-
-        this.configStatus = true;
-
-        this.getConfig = function () {
-            fs__WEBPACK_IMPORTED_MODULE_0___default.a.readFile(this.configPath, 'utf8', (err, contents) => {
-                if (err) { console.log(err); }
-                if (contents == 1) {
-                    this.configStatus = true;
-                } else if (contents == 0) {
-                    this.configStatus = false;
-                }
-            });
-        }
     };
+
+    // TODO: временно синхронный. С асинхронным проблемы.
+    getConfig() {
+        // let getStatus = fs.readFile(this.configPath, 'utf8', (err, contents) => {
+        //     if (err) { console.log(err); }
+        //     if (contents == 1) {
+                
+        //     } else if (contents == 0) {
+                
+        //     }
+        // });
+        let getStatus = fs__WEBPACK_IMPORTED_MODULE_0___default.a.readFileSync(this.configPath, 'utf8');
+        if (getStatus == 0) {
+            return false;
+        } else if (getStatus == 1) {
+            return true;
+        }
+    }
 
     writeConfig(status) {
         if (status === true) {
@@ -42482,10 +42496,6 @@ __webpack_require__.r(__webpack_exports__);
 
 let newAction = "";
 let alarmStatus = "";
-let data = {
-    alarmStatus : false,
-    alarmMessage : ""
-}
 
 /* harmony default export */ __webpack_exports__["default"] = (class {
 
@@ -42494,55 +42504,64 @@ let data = {
     }
 
     parse() {
-        const q = tress__WEBPACK_IMPORTED_MODULE_0___default()((url, callback)=> {
-            Object(needle__WEBPACK_IMPORTED_MODULE_2__["get"])(url, function (err, res) {
-                if (err) throw err;
-                var $ = Object(cheerio__WEBPACK_IMPORTED_MODULE_3__["load"])(res.body); //parse DOM
-                $(".t-card").each(function (i, item) {
-                    if ($(item).hasClass("t-card_event__passed")) {} //if event has been past
-                    else {
-                        //если у заголовка нет статуса 'passed' (т.е. есть активные мероприятия)
-                        let href = $(item)
-                            .children()
-                            .children()
-                            .next()
-                            .children()
-                            .children()
-                            .attr("href");
-                        newAction = href;
-                    }
-                });
-                callback();
-            });
-        }, 10); // запускаем 10 параллельных потоков
 
-        //ищем внутри новости
-        q.drain = function () {
-            var q = tress__WEBPACK_IMPORTED_MODULE_0___default()(function (url, callback) {
+        return new Promise((resolve, reject)=> {
+
+            let data = {
+                alarmStatus : false,
+                alarmMessage : ""
+            }
+
+            const q = tress__WEBPACK_IMPORTED_MODULE_0___default()((url, callback)=> {
                 Object(needle__WEBPACK_IMPORTED_MODULE_2__["get"])(url, function (err, res) {
-                    if (err) {
-                        return;
-                    }
-                    var $ = Object(cheerio__WEBPACK_IMPORTED_MODULE_3__["load"])(res.body);
-
-                    //информация о статусе регистрации
-                    $(".b-actionbox__heading").each(function (i, item) {
-                        if ($(item).text() == "Регистрация на событие закрыта") {
-                            data.alarmStatus = false;
-                            data.alarmMessage = "Есть активное событие, но регистрация в данный момент закрыта";
-                        } else {
-                            data.alarmStatus = true;
-                            data.alarmMessage = "Регистрация открыта!";
+                    if (err) throw err;
+                    var $ = Object(cheerio__WEBPACK_IMPORTED_MODULE_3__["load"])(res.body); //parse DOM
+                    $(".t-card").each(function (i, item) {
+                        if ($(item).hasClass("t-card_event__passed")) {} //if event has been past
+                        else {
+                            //если у заголовка нет статуса 'passed' (т.е. есть активные мероприятия)
+                            let href = $(item)
+                                .children()
+                                .children()
+                                .next()
+                                .children()
+                                .children()
+                                .attr("href");
+                            newAction = href;
                         }
                     });
                     callback();
                 });
             }, 10); // запускаем 10 параллельных потоков
-            q.push(newAction);
-        };
-        q.push(this.url);
-
-        return data;
+    
+            //ищем внутри новости
+            q.drain = function () {
+                var q = tress__WEBPACK_IMPORTED_MODULE_0___default()(function (url, callback) {
+                    Object(needle__WEBPACK_IMPORTED_MODULE_2__["get"])(url, function (err, res) {
+                        if (err) {
+                            return;
+                        }
+                        var $ = Object(cheerio__WEBPACK_IMPORTED_MODULE_3__["load"])(res.body);
+    
+                        //информация о статусе регистрации
+                        $(".b-actionbox__heading").each(function (i, item) {
+                            if ($(item).text() == "Регистрация на событие закрыта") {
+                                data.alarmStatus = false;
+                                data.alarmMessage = "Есть активное событие, но регистрация в данный момент закрыта";
+                            } else {
+                                data.alarmStatus = true;
+                                data.alarmMessage = "Регистрация открыта!";
+                            }
+                        });
+                        callback();
+                    });
+                }, 10); // запускаем 10 параллельных потоков
+                q.push(newAction);
+            };
+            q.push(this.url);
+            
+            resolve(data);
+        });
     };
 });
 

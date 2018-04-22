@@ -4,20 +4,25 @@ export default class {
 
     constructor(configPath){
         this.configPath = configPath;
-
-        this.configStatus = true;
-
-        this.getConfig = function () {
-            fs.readFile(this.configPath, 'utf8', (err, contents) => {
-                if (err) { console.log(err); }
-                if (contents == 1) {
-                    this.configStatus = true;
-                } else if (contents == 0) {
-                    this.configStatus = false;
-                }
-            });
-        }
     };
+
+    // TODO: временно синхронный. С асинхронным проблемы.
+    getConfig() {
+        // let getStatus = fs.readFile(this.configPath, 'utf8', (err, contents) => {
+        //     if (err) { console.log(err); }
+        //     if (contents == 1) {
+                
+        //     } else if (contents == 0) {
+                
+        //     }
+        // });
+        let getStatus = fs.readFileSync(this.configPath, 'utf8');
+        if (getStatus == 0) {
+            return false;
+        } else if (getStatus == 1) {
+            return true;
+        }
+    }
 
     writeConfig(status) {
         if (status === true) {
