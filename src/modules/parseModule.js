@@ -56,12 +56,12 @@ export default class {
                         $(".b-actionbox__heading").each(function (i, item) {
                             if ($(item).text() == "Регистрация на событие закрыта") {
                                 data.alarmStatus = false;
-                                data.alarmMessage = "Есть активное событие, но регистрация в данный момент закрыта";
+                                data.alarmMessage = ( "There is en active event, but registration is close: " + " - " + new Date() );
                                 reject(data);
                             } else {
                                 data.alarmStatus = true;
-                                data.alarmMessage = "Регистрация открыта!";
-                                resolve(data);                                
+                                data.alarmMessage = "Registration is open!!!";
+                                resolve(data);
                             }
                         });
                         callback();

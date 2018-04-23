@@ -26,9 +26,9 @@ export default class {
 
     writeConfig(status) {
         if (status === true) {
-            fs.writeFile("config.js", "1", ()=>{ console.log('конфиг перезаписан на "разрешить"') }); // "1" - разрешить.
+            fs.writeFile("config.js", "1", ()=>{ console.log('config has been changed to "true"') }); // "1" - true.
         } else if (status === false) {
-            fs.writeFile("config.js", "0", ()=>{ console.log('конфиг перезаписан на "запретить"') }); // "0" - запретить.
+            fs.writeFile("config.js", "0", ()=>{ console.log('config has been changed to "false"') }); // "0" - false.
         }
     }
 }
