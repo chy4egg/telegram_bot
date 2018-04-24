@@ -60,7 +60,7 @@ export default class {
                                 reject(data);
                             } else {
                                 data.alarmStatus = true;
-                                data.alarmMessage = "Registration is open!!!";
+                                data.alarmMessage = ( "Registration is open! Here is the link: " + newAction );
                                 resolve(data);
                             }
                         });
