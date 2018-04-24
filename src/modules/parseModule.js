@@ -56,7 +56,7 @@ export default class {
                         $(".b-actionbox__heading").each(function (i, item) {
                             if ($(item).text() == "Регистрация на событие закрыта") {
                                 data.alarmStatus = false;
-                                data.alarmMessage = ( "There is en active event, but registration is close: " + " - " + new Date() );
+                                data.alarmMessage = ( "There is an active event, but registration is closed: " + " - " + new Date() );
                                 reject(data);
                             } else {
                                 data.alarmStatus = true;
