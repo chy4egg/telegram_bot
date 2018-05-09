@@ -14,13 +14,14 @@ const PARSER = new parseModule('https://pitercss.timepad.ru/events/');
             console.log(result.alarmMessage);
             TELEGRAM.sendStatus(result.alarmMessage);
             CONFIG.writeConfig(false); 
+          } else if(CONFIG.getConfig && result.alarmStatus === false) {
+
           } else {
             console.log('Что-то пошло не так...Возможно, скрипт уже выполнился. Попробуйте перезагрузить конфиг.');
           }
         },
         error => {
-            console.log(error.alarmMessage);
-            // TELEGRAM.sendStatus(error.alarmMessage);
+            console.log('Error. Check the config file...');
         }
       );
 

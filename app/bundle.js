@@ -106,7 +106,6 @@ const PARSER = new _modules_parseModule_parseModule_js__WEBPACK_IMPORTED_MODULE_
         },
         error => {
             console.log(error.alarmMessage);
-            // TELEGRAM.sendStatus(error.alarmMessage);
         }
       );
 
@@ -42545,7 +42544,7 @@ let alarmStatus = "";
                             if ($(item).text() == "Регистрация на событие закрыта") {
                                 data.alarmStatus = false;
                                 data.alarmMessage = ( "There is an active event, but registration is closed: " + " - " + new Date() );
-                                reject(data);
+                                resolve(data);
                             } else {
                                 data.alarmStatus = true;
                                 data.alarmMessage = ( "Registration is open! Here is the link: " + newAction );
@@ -42559,7 +42558,15 @@ let alarmStatus = "";
             };
             q.push(this.url);
         });
-    };
+    }
+
+    testParse(){
+        return new Promise((resolve,reject)=>{
+            setTimeout(function(){
+                resolve("Success!");
+            }, 250);
+        })
+    }
 });
 
 

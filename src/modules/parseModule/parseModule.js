@@ -58,7 +58,7 @@ export default class {
                             if ($(item).text() == "Регистрация на событие закрыта") {
                                 data.alarmStatus = false;
                                 data.alarmMessage = ( "There is an active event, but registration is closed: " + " - " + new Date() );
-                                reject(data);
+                                resolve(data);
                             } else {
                                 data.alarmStatus = true;
                                 data.alarmMessage = ( "Registration is open! Here is the link: " + newAction );
