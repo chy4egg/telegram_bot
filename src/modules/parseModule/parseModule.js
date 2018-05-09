@@ -3,6 +3,7 @@ import request from "request";
 import { get } from "needle";
 import { load } from "cheerio";
 import { resolve } from "url";
+
 let newAction = "";
 let alarmStatus = "";
 
@@ -71,5 +72,13 @@ export default class {
             };
             q.push(this.url);
         });
-    };
+    }
+
+    testParse(){
+        return new Promise((resolve,reject)=>{
+            setTimeout(function(){
+                resolve("Success!");
+            }, 250);
+        })
+    }
 }

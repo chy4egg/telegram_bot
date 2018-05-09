@@ -6,14 +6,20 @@
   "license": "ISC",
   "scripts": {
     "watch": "webpack --watch",
-    "start": "node app/bundle.js"
+    "build": "webpack",
+    "start": "node app/bundle.js",
+    "test": "mocha --compilers js:babel-core/register src/**/test.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
     "cheerio": "^1.0.0-rc.2",
     "concurrently": "^3.5.1",
+    "mocha": "^5.1.1",
     "needle": "^2.0.1",
     "request": "^2.83.0",
     "slimbot": "^0.7.7",
