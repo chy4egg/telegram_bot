@@ -100,14 +100,18 @@ const PARSER = new _modules_parseModule_parseModule_js__WEBPACK_IMPORTED_MODULE_
             console.log(result.alarmMessage);
             TELEGRAM.sendStatus(result.alarmMessage);
             CONFIG.writeConfig(false); 
+          } else if(CONFIG.getConfig && result.alarmStatus === false) {
+              console.log(result.alarmMessage);
           } else {
             console.log('Что-то пошло не так...Возможно, скрипт уже выполнился. Попробуйте перезагрузить конфиг.');
           }
         },
         error => {
-            console.log(error.alarmMessage);
+            console.log('Error. Check the config file...');
         }
-      );
+      ).catch((err)=>{
+        console.log(err);
+      });
 
 }());
 
@@ -176,7 +180,7 @@ __webpack_require__.r(__webpack_exports__);
         this.token = token;
         //send message method
         this.sendStatus = (message)=> {
-            BOT.sendMessage('67363885', message ).then(message => {});
+            BOT.sendMessage('67363885', message ).then(ok => {}, err =>{});
         };
     }
 });
@@ -42500,14 +42504,11 @@ let alarmStatus = "";
     }
 
     parse() {
-
         return new Promise((resolve, reject)=> {
-
             let data = {
                 alarmStatus : false,
                 alarmMessage : ""
             }
-
             const q = tress__WEBPACK_IMPORTED_MODULE_0___default()((url, callback)=> {
                 Object(needle__WEBPACK_IMPORTED_MODULE_2__["get"])(url, function (err, res) {
                     if (err) throw err;
@@ -42543,7 +42544,7 @@ let alarmStatus = "";
                         $(".b-actionbox__heading").each(function (i, item) {
                             if ($(item).text() == "Регистрация на событие закрыта") {
                                 data.alarmStatus = false;
-                                data.alarmMessage = ( "There is an active event, but registration is closed: " + " - " + new Date() );
+                                data.alarmMessage = ( "There is an active event but registration is closed: " + " - " + new Date() );
                                 resolve(data);
                             } else {
                                 data.alarmStatus = true;
@@ -42559,16 +42560,7 @@ let alarmStatus = "";
             q.push(this.url);
         });
     }
-
-    testParse(){
-        return new Promise((resolve,reject)=>{
-            setTimeout(function(){
-                resolve("Success!");
-            }, 250);
-        })
-    }
 });
-
 
 /***/ }),
 /* 266 */

@@ -14,14 +14,11 @@ export default class {
     }
 
     parse() {
-
         return new Promise((resolve, reject)=> {
-
             let data = {
                 alarmStatus : false,
                 alarmMessage : ""
             }
-
             const q = tress((url, callback)=> {
                 get(url, function (err, res) {
                     if (err) throw err;
@@ -57,7 +54,7 @@ export default class {
                         $(".b-actionbox__heading").each(function (i, item) {
                             if ($(item).text() == "Регистрация на событие закрыта") {
                                 data.alarmStatus = false;
-                                data.alarmMessage = ( "There is an active event, but registration is closed: " + " - " + new Date() );
+                                data.alarmMessage = ( "There is an active event but registration is closed: " + " - " + new Date() );
                                 resolve(data);
                             } else {
                                 data.alarmStatus = true;
@@ -72,13 +69,5 @@ export default class {
             };
             q.push(this.url);
         });
-    }
-
-    testParse(){
-        return new Promise((resolve,reject)=>{
-            setTimeout(function(){
-                resolve("Success!");
-            }, 250);
-        })
     }
 }

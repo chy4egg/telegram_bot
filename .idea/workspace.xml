@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4ec1255f-c3dd-477d-99e8-abbb15f4a3ff" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/bundle.js" afterPath="$PROJECT_DIR$/app/bundle.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app.js" afterPath="$PROJECT_DIR$/src/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/modules/parseModule/parseModule.js" afterPath="$PROJECT_DIR$/src/modules/parseModule/parseModule.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/modules/parseModule/test.js" afterPath="$PROJECT_DIR$/src/modules/parseModule/test.js" />
-    </list>
+    <list default="true" id="4ec1255f-c3dd-477d-99e8-abbb15f4a3ff" name="Default" comment="" />
     <ignored path="telegram_bot.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -55,8 +50,8 @@
       <file leaf-file-name="test.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/modules/parseModule/test.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="16" column="21" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+            <state relative-caret-position="360">
+              <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
               </folding>
@@ -89,6 +84,7 @@
         <option value="$PROJECT_DIR$/src/modules/parseModule/parseModule.js" />
         <option value="$PROJECT_DIR$/src/app.js" />
         <option value="$PROJECT_DIR$/src/modules/parseModule/test.js" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -330,7 +326,7 @@
       <workItem from="1510943039538" duration="2106000" />
       <workItem from="1524379102680" duration="7658000" />
       <workItem from="1524396831014" duration="1788000" />
-      <workItem from="1525860899019" duration="10931000" />
+      <workItem from="1525860899019" duration="11452000" />
     </task>
     <task id="LOCAL-00001" summary="tmp save">
       <created>1509135980162</created>
@@ -371,7 +367,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53303000" />
+    <option name="totallyTimeSpent" value="53824000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -593,10 +589,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="47" selection-start-line="0" selection-start-column="47" selection-end-line="0" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/modules/parseModule/test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="21" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+        <state relative-caret-position="360">
+          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>

@@ -6,7 +6,7 @@ export default class {
         this.token = token;
         //send message method
         this.sendStatus = (message)=> {
-            BOT.sendMessage('67363885', message ).then(message => {});
+            BOT.sendMessage('67363885', message ).then(ok => {}, err =>{});
         };
     }
 }
