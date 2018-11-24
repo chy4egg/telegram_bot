@@ -21,11 +21,11 @@
     "concurrently": "^3.5.1",
     "mocha": "^5.1.1",
     "needle": "^2.0.1",
-    "request": "^2.83.0",
+    "request": "^2.88.0",
     "slimbot": "^0.7.7",
     "telegraf": "^3.14.0",
     "tress": "^1.0.5",
     "webpack": "^4.6.0",
-    "webpack-cli": "^2.0.15"
+    "webpack-cli": "^2.1.5"
   }
 }

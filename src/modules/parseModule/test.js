@@ -4,8 +4,19 @@ import chaiAsPromised from "chai-as-promised";
 chai.should();
 chai.use(chaiAsPromised);
 const expect = chai.expect;
-const Parse = new parseModule('https://pitercss.timepad.ru/events/');
+const Parse = new parseModule({
 
+    outer: {
+        url: 'https://pitercss.timepad.ru/events/',
+        itemName: '.t-card',
+        passedItemName: '.t-card_event__passed'
+    },
+    inner: {
+        targetItem: '.b-actionbox__heading',
+        errorText: 'Регистрация на событие закрыта',
+    }
+
+});
 
 describe('parseModule', ()=> {
     describe('#parse()', ()=> {

@@ -5,28 +5,45 @@ import { load } from "cheerio";
 import { resolve } from "url";
 
 let newAction = "";
-let alarmStatus = "";
 
+/**
+ * The url parser
+ * @param parseData {Object}
+ */
 export default class {
-
-    constructor(url) {
-        this.url = url;
+    constructor(parseData) {
+        //outer card
+        this.url = parseData.outer.url;
+        this.itemName = parseData.outer.itemName;
+        this.passedItemName = parseData.outer.passedItemName;
+        //inner card
+        this.targetItem = parseData.inner.targetItem;
+        this.errorText = parseData.inner.errorText;
     }
 
     parse() {
+        const sItemName = this.itemName;
+        const sPassedItemName = this.passedItemName;
+        const sTargetItem = this.targetItem;
+        const sErrorText = this.errorText;
+
         return new Promise((resolve, reject)=> {
-            let data = {
+            const data = {
                 alarmStatus : false,
                 alarmMessage : ""
             }
-            const q = tress((url, callback)=> {
+            const q = tress((url, callback) => {
                 get(url, function (err, res) {
-                    if (err) throw err;
-                    var $ = load(res.body); //parse DOM
-                    $(".t-card").each(function (i, item) {
-                        if ($(item).hasClass("t-card_event__passed")) {} //if event has been past
+                    if (err || !res) throw err;
+
+                    const $ = load(res.body); //parse DOM
+                    $(sItemName).each(function (i, item) {
+						//in case of passed event
+                        if ($(item).hasClass(sPassedItemName)) {
+
+                        } //if event has been past
                         else {
-                            //если у заголовка нет статуса 'passed' (т.е. есть активные мероприятия)
+                            //if an active evend card
                             let href = $(item)
                                 .children()
                                 .children()
@@ -40,19 +57,18 @@ export default class {
                     callback();
                 });
             }, 10); // запускаем 10 параллельных потоков
-    
+
             //ищем внутри новости
             q.drain = function () {
-                var q = tress(function (url, callback) {
-                    get(url, function (err, res) {
-                        if (err) {
-                            return;
-                        }
-                        var $ = load(res.body);
-    
+                const q = tress((url, callback) =>  {
+                    get(url, (err, res) => {
+                        if (err) return;
+                        const $ = load(res.body);
                         //информация о статусе регистрации
-                        $(".b-actionbox__heading").each(function (i, item) {
-                            if ($(item).text() == "Регистрация на событие закрыта") {
+                        $(sTargetItem).each(function (i, item) {
+
+                            //TODO: can i make it reusable?
+                            if ($(item).text() == sErrorText) {
                                 data.alarmStatus = false;
                                 data.alarmMessage = ( "There is an active event but registration is closed: " + " - " + new Date() );
                                 resolve(data);
