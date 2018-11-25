@@ -1,0 +1,6 @@
+> The domain has been changed. Change the selectors acording to the new website.
+> Make the parser more reusable. Optimize the search algorithm.
+
+https://twitter.com/pitercss_meetup - new address
+
+
