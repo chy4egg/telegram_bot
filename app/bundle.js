@@ -90,10 +90,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const CONFIG = new _modules_configStatus_configStatus_js__WEBPACK_IMPORTED_MODULE_0__["default"]('config.js');
 const TELEGRAM = new _modules_telegramApi_telegramApi_js__WEBPACK_IMPORTED_MODULE_1__["default"]('418099931:AAF7wgbCO_e29pqv4JM4UMiHoIwDfm3teBw');
-//
-//TODO: make agruments as an object
 const PARSER = new _modules_parseModule_parseModule_js__WEBPACK_IMPORTED_MODULE_2__["default"]({
-
     outer: {
         url: 'https://pitercss.timepad.ru/events/',
         itemName: '.t-card',
@@ -103,7 +100,6 @@ const PARSER = new _modules_parseModule_parseModule_js__WEBPACK_IMPORTED_MODULE_
         targetItem: '.b-actionbox__heading',
         errorText: 'Регистрация на событие закрыта',
     }
-
 });
 
 /**
@@ -42173,7 +42169,7 @@ let newAction = "";
             };
             q.push(this.url);
         });
-    }
+    };
 });
 
 

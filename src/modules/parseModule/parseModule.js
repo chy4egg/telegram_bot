@@ -85,5 +85,5 @@ export default class {
             };
             q.push(this.url);
         });
-    }
+    };
 }

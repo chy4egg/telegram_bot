@@ -4,10 +4,7 @@ import parseModule from './modules/parseModule/parseModule.js';
 
 const CONFIG = new configStatus('config.js');
 const TELEGRAM = new telegramApi('418099931:AAF7wgbCO_e29pqv4JM4UMiHoIwDfm3teBw');
-//
-//TODO: make agruments as an object
 const PARSER = new parseModule({
-
     outer: {
         url: 'https://pitercss.timepad.ru/events/',
         itemName: '.t-card',
@@ -17,7 +14,6 @@ const PARSER = new parseModule({
         targetItem: '.b-actionbox__heading',
         errorText: 'Регистрация на событие закрыта',
     }
-
 });
 
 /**
