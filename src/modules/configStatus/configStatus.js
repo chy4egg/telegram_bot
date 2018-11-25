@@ -7,7 +7,7 @@ export default class {
     };
 
     /**
-     * Reads the config gile info
+     * Reads the config file info
      */
     getConfig() {
         let getStatus = fs.readFileSync(this.configPath, 'utf8');

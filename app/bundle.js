@@ -148,7 +148,7 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     /**
-     * Reads the config gile info
+     * Reads the config file info
      */
     getConfig() {
         let getStatus = fs__WEBPACK_IMPORTED_MODULE_0___default.a.readFileSync(this.configPath, 'utf8');
