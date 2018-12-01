@@ -42151,7 +42151,6 @@ let newAction = "";
                         //информация о статусе регистрации
                         $(sTargetItem).each(function (i, item) {
 
-                            //TODO: can i make it reusable?
                             if ($(item).text() == sErrorText) {
                                 data.alarmStatus = false;
                                 data.alarmMessage = ( "There is an active event but registration is closed: " + " - " + new Date() );

@@ -5,7 +5,6 @@ chai.should();
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 const Parse = new parseModule({
-
     outer: {
         url: 'https://pitercss.timepad.ru/events/',
         itemName: '.t-card',
@@ -15,7 +14,6 @@ const Parse = new parseModule({
         targetItem: '.b-actionbox__heading',
         errorText: 'Регистрация на событие закрыта',
     }
-
 });
 
 describe('parseModule', ()=> {
