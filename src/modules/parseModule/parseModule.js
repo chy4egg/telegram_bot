@@ -27,7 +27,7 @@ export default class {
         const sTargetItem = this.targetItem;
         const sErrorText = this.errorText;
 
-        return new Promise((resolve, reject)=> {
+        return new Promise((resolve) => {
             const data = {
                 alarmStatus : false,
                 alarmMessage : ""
@@ -37,14 +37,14 @@ export default class {
                     if (err || !res) throw err;
 
                     const $ = load(res.body); //parse DOM
-                    $(sItemName).each(function (i, item) {
+                    $(sItemName).each(function () {
 						//in case of passed event
-                        if ($(item).hasClass(sPassedItemName)) {
+                        if ($(this).hasClass(sPassedItemName)) {
 
                         } //if event has been past
                         else {
                             //if an active evend card
-                            let href = $(item)
+                            let href = $(this)
                                 .children()
                                 .children()
                                 .next()
@@ -65,9 +65,9 @@ export default class {
                         if (err) return;
                         const $ = load(res.body);
                         //информация о статусе регистрации
-                        $(sTargetItem).each(function (i, item) {
+                        $(sTargetItem).each(function () {
 
-                            if ($(item).text() == sErrorText) {
+                            if ($(this).text() == sErrorText) {
                                 data.alarmStatus = false;
                                 data.alarmMessage = ( "There is an active event but registration is closed: " + " - " + new Date() );
                                 resolve(data);

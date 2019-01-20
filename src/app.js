@@ -21,10 +21,6 @@ const PARSER = new parseModule({
  * if the config file and the alarm status are good - send me a message in telegram
  */
 (function init () {
-
-    //TODO: remove!
-    console.log('this is just for the test. REMOVE');
-
     PARSER.parse().then(
         result => {
             //if the event is available
