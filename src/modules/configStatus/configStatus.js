@@ -12,7 +12,7 @@ export default class {
     getConfig() {
         let getStatus = fs.readFileSync(this.configPath, 'utf8');
 	    // getStatus should be different then 0
-	    return (!getStatus == 0);
+	    return getStatus != 0;
     }
 
     /**

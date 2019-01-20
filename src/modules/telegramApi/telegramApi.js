@@ -1,7 +1,7 @@
 import Slimbot from "slimbot";
 
 export default class {
-    constructor(token){
+    constructor(token) {
         const BOT = new Slimbot(token);
         this.token = token;
         //send message method

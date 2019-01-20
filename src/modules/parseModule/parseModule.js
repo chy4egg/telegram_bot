@@ -1,5 +1,5 @@
 import tress from "tress";
-import request from "request";
+// import request from "request"; //TODO: need?
 import { get } from "needle";
 import { load } from "cheerio";
 import { resolve } from "url";
