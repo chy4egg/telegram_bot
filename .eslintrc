@@ -10,5 +10,12 @@
     "parserOptions": {
         "ecmaVersion": 6,
          "sourceType": "module"
+    },
+    "rules": {
+        "no-console": "off",
+        "brace-style": "off",
+        "comma-dangle": "off",
+        "import/no-unresolved": "off",
+        "import/no-extraneous-dependencies": "off"
     }
 }
