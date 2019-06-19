@@ -1,6 +1,4 @@
-# This is kind of a test project where i tried to parse a website of
-frontend meetups in my city and send me a message in telegram when it is
-available. Also i tried unit testing here just for fun.
+# This is kind of a test project where i tried to parse a website of frontend meetups in my city and send me a message in telegram when the one of them is available. Also i tried unit testing here just for fun, but it's not a big deal.
 
 # Deprecated. Doesn't work and not supported anymore
 
